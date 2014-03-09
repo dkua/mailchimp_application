@@ -1,0 +1,6 @@
+{
+    "Host": "smtp.mandrillapp.com",
+    "Port": 587,
+    "Username": "test@example.com",
+    "Password": "API KEY HERE"
+}
