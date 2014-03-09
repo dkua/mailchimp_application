@@ -1,8 +1,10 @@
 package main
 
 import (
+	"encoding/base64"
 	"encoding/json"
 	"fmt"
+  "io/ioutil"
 	"os"
 )
 
@@ -41,21 +43,31 @@ func getConfiguration() Configuration {
 	return *configuration
 }
 
+func createAttachment(mime, name, filepath string) Attachment {
+    file, err := ioutil.ReadFile(filepath)
+    if err != nil {
+        panic(err)
+    }
+    content := base64.StdEncoding.EncodeToString(file)
+    attachment := Attachment{
+        Type: mime,
+        Name: name,
+        Content: content,
+    }
+    return attachment
+}
+
 func main() {
 	configuration := getConfiguration()
 
 	attachments := make([]Attachment, 0)
-	attachment := Attachment{
-		Type:    "text/plain",
-		Name:    "mailchimp.go",
-		Content: "blahblah",
-	}
+	attachment := createAttachment("text/plain", "mailchimp.go", "mailchimp.go")
 
-  if len(os.Args) != 2 {
-      os.Stderr.Write([]byte("Not enough arguments\n"))
-      os.Stderr.Write([]byte(fmt.Sprintf("usage: %s email\n", os.Args[0])))
-      return
-  }
+	if len(os.Args) != 2 {
+		os.Stderr.Write([]byte("Not enough arguments\n"))
+		os.Stderr.Write([]byte(fmt.Sprintf("usage: %s email\n", os.Args[0])))
+		return
+	}
 
 	message := Message{
 		Html:        "Hey there, here is my Go code that uses the Mandrill API to send itself as an attachment in this email. I'm sending this as an application for your Software Engineer Intern position. For more of my code you can check out my Github: github.com/dkua. Cheers!",
@@ -75,5 +87,5 @@ func main() {
 	if err != nil {
 		fmt.Println("Error:", err)
 	}
-  fmt.Println(string(req))
+	fmt.Println(string(req))
 }
