@@ -89,8 +89,8 @@ func main() {
 	}
 
 	message := Message{
-		Html:        "Hey there, here is my Go code that uses the Mandrill API to send itself as an attachment in this email. I'm sending this as an application for your Software Engineer Intern position. The code for this can also be found on my Github at github.com/dkua/mandrill_application. Cheers!",
-		Text:        "Hey there, here is my Go code that uses the Mandrill API to send itself as an attachment in this email. I'm sending this as an application for your Software Engineer Intern position. The code for this can also be found on my Github at github.com/dkua/mandrill_application. Cheers!",
+		Html:        "Hey there,<br/><br/>Here is my Go code that uses the Mandrill API to send itself as an attachment in this email. I'm sending this as an application for your Software Engineer Intern position. The code for this can also be found on my Github at github.com/dkua/mailchimp_application.<br/><br/>Cheers!<br/>",
+		Text:        "Hey there,\nHere is my Go code that uses the Mandrill API to send itself as an attachment in this email. I'm sending this as an application for your Software Engineer Intern position. The code for this can also be found on my Github at github.com/dkua/mailchimp_application.\nCheers!",
 		Subject:     "Code Sample - David Kua",
 		FromEmail:   configuration.Username,
 		To:          append(recipients, recipient),
@@ -117,5 +117,5 @@ func main() {
 		fmt.Printf("%s", err)
 		os.Exit(1)
 	}
-	fmt.Printf("%s\n", string(contents))
+	fmt.Println(string(contents))
 }
